@@ -9,8 +9,8 @@ Navigate between the different angular js files:
 
 #### Built in mappings:
 
-<leader>aa for app.js
-<leader>ac for controllers.js
-<leader>ad for directives.js
-<leader>af for filters.js
-<leader>as for services.js
+    <leader>aa for app.js
+    <leader>ac for controllers.js
+    <leader>ad for directives.js
+    <leader>af for filters.js
+    <leader>as for services.js
