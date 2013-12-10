@@ -10,10 +10,22 @@ Navigate between the different angular js files:
 ### Commands
 
     :AApp
+    :AApp my_app
+
     :AControllers
+    :AController my_controller
+
+    :ADirective my_directive
     :ADirectives
-    :AFilter
+
+    :AFilters
+    :AFilter my_filter
+
     :AServices
+    :AService my_service
+
+    :AModules
+    :AModule my_module
 
 #### Built in mappings:
 

@@ -4,6 +4,13 @@ endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:Directives ADirectives :call g:Directives()
 nnoremap <leader>ad :call g:Directives()<cr>
 
+function! g:Directive(name)
+  grep name
+  " find or create directivename
+endfunction
+command! -buffer -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
+" nnoremap <leader>ad :call g:Directive()<cr>
+
 function! g:Controllers()
   find ./app/js/controllers.js
 endfunction
