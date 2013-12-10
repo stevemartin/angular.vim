@@ -7,6 +7,14 @@ This plugin aims to act as a wrapper around the [angular seed](https://github.co
 ### Usage
 Navigate between the different angular js files:
 
+### Commands
+
+    :AApp
+    :AControllers
+    :ADirectives
+    :AFilter
+    :AServices
+
 #### Built in mappings:
 
     <leader>aa for app.js
