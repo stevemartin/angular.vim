@@ -16,12 +16,12 @@ nnoremap <leader>aa :call g:App()<cr>
 function! g:Filters()
   find('app/js/filters.js')
 endfunction
-nnoremap <leader>aa :call g:Filters()<cr>
+nnoremap <leader>af :call g:Filters()<cr>
 
 function! g:Services()
   find('app/js/services.js')
 endfunction
-nnoremap <leader>aa :call g:Services()<cr>
+nnoremap <leader>as :call g:Services()<cr>
 
 function! g:AngularApp()
   if filereadable("update-angular.sh")
