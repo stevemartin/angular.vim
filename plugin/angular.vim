@@ -17,6 +17,7 @@ command! -bar -nargs=0 -complete=customlist,g:Directives ADirectives :call g:Dir
 nnoremap <leader>ad :call g:Directives()<cr>
 
 function! g:Directive(name)
+  set nofoldenable
   find ./app/js/directives.js
   call g:FindOrAdd('directive', a:name)
 endfunction
@@ -33,7 +34,7 @@ function! g:FindOrAdd(type, name)
       end
     end
   else
-    echo "Didn't find ".a:type
+    echo "Didn't find ".a:type.", current file: ".curfile
   end
 endfunction
 
@@ -64,7 +65,6 @@ function! g:Controller(name)
   else
     echo "Didn't find controller file, current file: ".curfile
   end
-  set foldenable
 endfunction
 command! -bar -nargs=1 -complete=customlist,g:Controller AController :call g:Controller(<f-args>)
 
