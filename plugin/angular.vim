@@ -2,6 +2,8 @@ function! g:Directives()
   if filereadable("./app/js/directives.js")
     find ./app/js/directives.js
   else
+    grep "directive\(" app/js/*.js
+    clast
   end
 endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:Directives ADirectives :call g:Directives()
