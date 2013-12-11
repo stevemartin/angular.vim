@@ -61,7 +61,7 @@ function! g:Controller(name)
       end
     end
   else
-    echo "Didn't find controller file"
+    echo "Didn't find controller file, current file: ".curfile
   end
 endfunction
 command! -bar -nargs=1 -complete=customlist,g:Controller AController :call g:Controller(<f-args>)
