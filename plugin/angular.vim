@@ -1,4 +1,6 @@
-function! g:Directives()
+" Vim global plugin for editing angular.js apps in the angular seed form.
+
+function! s:Directives()
   if filereadable("./app/js/directives.js")
     find ./app/js/directives.js
   else
@@ -9,12 +11,12 @@ endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:Directives ADirectives :call g:Directives()
 nnoremap <leader>ad :call g:Directives()<cr>
 
-function! g:Directive(name)
+function! s:Directive(name)
   find ./app/js/directives.js
-  call FindOrAdd('directive', a:name)
+  call s:FindOrAdd('directive', a:name)
 endfunction
 
-function! FindOrAdd(type, name)
+function! s:FindOrAdd(type, name)
   let curfile = bufname("%")
   if curfile == "app/js/".a:type."s.js"
     let resdict = searchpos(a:name)
@@ -28,20 +30,19 @@ function! FindOrAdd(type, name)
   else
     echo "Didn't find ".a:type
   end
-
 endfunction
 
-function! g:AddItem(type, name)
+function! s:AddItem(type, name)
   execute "normal! G?".a:type."(\<cr>%a.".a:type."(\'".a:name."\',)\<esc>i"
 endfunction
 
-function! g:DeleteItem(type, name)
+function! s:DeleteItem(type, name)
 endfunction
 
 command! -buffer -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
 " nnoremap <leader>ad :call g:Directive()<cr>
 
-function! g:Controller(name)
+function! s:Controller(name)
   find ./app/js/controllers.js
   let curfile = bufname("%")
   if curfile == "app/js/controllers.js"
@@ -60,31 +61,31 @@ function! g:Controller(name)
 endfunction
 command! -buffer -bar -nargs=1 -complete=customlist,g:Controller AController :call g:Controller(<f-args>)
 
-function! g:FindItem(name, type)
+function! s:FindItem(name, type)
   let file_name = "app/js/".a:type.".js"
   echo file_name
   call findfile(file_name)
 endfunction
 
-function! g:Controllers()
+function! s:Controllers()
   find ./app/js/controllers.js
 endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:Controllers AControllers :call g:Controllers()
 nnoremap <leader>ac :call g:Controllers()<cr>
 
-function! g:App()
+function! s:App()
   find ./app/js/app.js
 endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:App AApp :call g:App()
 nnoremap <leader>aa :call g:App()<cr>
 
-function! g:Filters()
+function! s:Filters()
   find ./app/js/filters.js
 endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:Filters AFilters :call g:Filters()
 nnoremap <leader>af :call g:Filters()<cr>
 
-function! g:Filter(name)
+function! s:Filter(name)
   " find ./app/js/filters.js
   let curfile = bufname("%")
   if curfile == "app/js/filters.js"
@@ -103,13 +104,13 @@ function! g:Filter(name)
 endfunction
 command! -buffer -bar -nargs=1 -complete=customlist,g:Filter AFilter :call g:Filter(<f-args>)
 
-function! g:Services()
+function! s:Services()
   find ./app/js/services.js
 endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:Services AServices :call g:Services()
 nnoremap <leader>as :call g:Services()<cr>
 
-function! g:Service(name)
+function! s:Service(name)
   find ./app/js/services.js
   let curfile = bufname("%")
   if curfile == "app/js/services.js"
@@ -125,7 +126,7 @@ function! g:Service(name)
 endfunction
 command! -buffer -bar -nargs=1 -complete=customlist,g:Service AService :call g:Service(<f-args>)
 
-function! g:AngularApp()
+function! s:AngularApp()
   if filereadable("./update-angular.sh")
     return 1
   else
