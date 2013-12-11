@@ -23,7 +23,7 @@ endfunction
 
 function! g:FindOrAdd(type, name)
   let curfile = bufname("%")
-  if curfile == "app/js/".a:type."s.js"
+  if curfile == "./app/js/".a:type."s.js"
     let resdict = searchpos(a:name)
     if(resdict != [0,0])
       echo "Found ".a:type."!"
@@ -50,7 +50,7 @@ command! -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Direc
 function! g:Controller(name)
   find ./app/js/controllers.js
   let curfile = bufname("%")
-  if curfile == "app/js/controllers.js"
+  if curfile == "./app/js/controllers.js"
     let resdict = searchpos(a:name)
     if(resdict != [0,0])
       echo "Found controller!"
