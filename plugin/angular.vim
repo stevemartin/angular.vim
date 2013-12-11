@@ -19,12 +19,23 @@ function! g:Directive(name)
     else
       if input("Didn't find directive, add one? ") == "yes"
         echo "Adding!"
-        execute "normal G?directive(\<cr>%a.directive(\'".a:name."\',)\<esc>i"
+        g:AddDirective(a:name)
       end
     end
   else
     echo "Didn't find directive"
   end
+endfunction
+
+function! g:AddDirective(name)
+  g:AddItem('directive', a:name)
+endfunction
+
+function! g:AddItem(type, name)
+  execute "normal! G?".a:type."(\<cr>%a.".a:type."(\'".a:name."\',)\<esc>i"
+endfunction
+
+function! g:DeleteItem(type, name)
 endfunction
 
 command! -buffer -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
@@ -40,7 +51,7 @@ function! g:Controller(name)
     else
       if input("Didn't find controller, add one? ") == "yes"
         echo "Adding!"
-        execute "normal G?controller(\<cr>%a.controller(\'".a:name."\',)\<esc>i"
+        execute "normal! G?controller(\<cr>%a.controller(\'".a:name."\',)\<esc>i"
       end
     end
   else
@@ -74,7 +85,7 @@ command! -buffer -bar -nargs=? -complete=customlist,g:Filters AFilters :call g:F
 nnoremap <leader>af :call g:Filters()<cr>
 
 function! g:Filter(name)
-  find ./app/js/filters.js
+  " find ./app/js/filters.js
   let curfile = bufname("%")
   if curfile == "app/js/filters.js"
     let resdict = searchpos(a:name)
@@ -83,7 +94,7 @@ function! g:Filter(name)
     else
       if input("Didn't find filter, add one? ") == "yes"
         echo "Adding!"
-        execute "normal G?filter(\<cr>%a.filter(\'".a:name."\',)\<esc>i"
+        execute "normal! G?filter(\<cr>%a.filter(\'".a:name."\',)\<esc>i"
       end
     end
   else
