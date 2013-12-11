@@ -13,7 +13,7 @@ function! s:Directives()
     clast
   end
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,s:Directives ADirectives :call s:Directives()
+command! -bar -nargs=0 -complete=customlist,s:Directives ADirectives :call s:Directives()
 nnoremap <leader>ad :call s:Directives()<cr>
 
 function! s:Directive(name)
@@ -44,7 +44,7 @@ endfunction
 function! s:DeleteItem(type, name)
 endfunction
 
-command! -buffer -bar -nargs=1 -complete=customlist,s:Directive ADirective :call s:Directive(<f-args>)
+command! -bar -nargs=1 -complete=customlist,s:Directive ADirective :call s:Directive(<f-args>)
 " nnoremap <leader>ad :call s:Directive()<cr>
 
 function! s:Controller(name)
@@ -64,7 +64,7 @@ function! s:Controller(name)
     echo "Didn't find controller"
   end
 endfunction
-command! -buffer -bar -nargs=1 -complete=customlist,s:Controller AController :call s:Controller(<f-args>)
+command! -bar -nargs=1 -complete=customlist,s:Controller AController :call s:Controller(<f-args>)
 
 function! s:FindItem(name, type)
   let file_name = "app/js/".a:type.".js"
@@ -75,19 +75,19 @@ endfunction
 function! s:Controllers()
   find ./app/js/controllers.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,s:Controllers AControllers :call s:Controllers()
+command! -bar -nargs=? -complete=customlist,s:Controllers AControllers :call s:Controllers()
 nnoremap <leader>ac :call s:Controllers()<cr>
 
 function! s:App()
   find ./app/js/app.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,s:App AApp :call s:App()
+command! -bar -nargs=? -complete=customlist,s:App AApp :call s:App()
 nnoremap <leader>aa :call s:App()<cr>
 
 function! s:Filters()
   find ./app/js/filters.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,s:Filters AFilters :call s:Filters()
+command! -bar -nargs=? -complete=customlist,s:Filters AFilters :call s:Filters()
 nnoremap <leader>af :call s:Filters()<cr>
 
 function! s:Filter(name)
@@ -107,12 +107,12 @@ function! s:Filter(name)
     echo "Didn't find filter"
   end
 endfunction
-command! -buffer -bar -nargs=1 -complete=customlist,s:Filter AFilter :call s:Filter(<f-args>)
+command! -bar -nargs=1 -complete=customlist,s:Filter AFilter :call s:Filter(<f-args>)
 
 function! s:Services()
   find ./app/js/services.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,s:Services AServices :call s:Services()
+command! -bar -nargs=? -complete=customlist,s:Services AServices :call s:Services()
 nnoremap <leader>as :call s:Services()<cr>
 
 function! s:Service(name)
@@ -131,7 +131,7 @@ function! s:Service(name)
 endfunction
 
 if !exists(":AService")
-  command! -buffer -bar -nargs=1 -complete=customlist,s:Service AService :call s:Service(<f-args>)
+  command! -bar -nargs=1 -complete=customlist,s:Service AService :call s:Service(<f-args>)
 endif
 
 function! s:AngularApp()
@@ -142,3 +142,12 @@ function! s:AngularApp()
   endif
 endfunction
 
+" augroup angularPluginDetect
+"   autocmd!
+"   autocmd BufNewFile,BufRead * call s:Detect(expand("<afile>:p"))
+"   autocmd VimEnter * if expand("<amatch>") == "" && !exists("b:rails_root") | call s:Detect(getcwd()) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
+"   autocmd FileType netrw if !exists("b:rails_root") | call s:Detect(expand("%:p")) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
+"   autocmd BufEnter * if exists("b:rails_root")|silent doau User BufEnterRails|endif
+"   autocmd BufLeave * if exists("b:rails_root")|silent doau User BufLeaveRails|endif
+"   autocmd Syntax railslog if s:autoload()|call rails#log_syntax()|endif
+" augroup END
