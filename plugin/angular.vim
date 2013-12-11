@@ -8,8 +8,8 @@ function! s:Directives()
     clast
   end
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,g:Directives ADirectives :call g:Directives()
-nnoremap <leader>ad :call g:Directives()<cr>
+command! -buffer -bar -nargs=? -complete=customlist,s:Directives ADirectives :call s:Directives()
+nnoremap <leader>ad :call s:Directives()<cr>
 
 function! s:Directive(name)
   find ./app/js/directives.js
@@ -24,7 +24,7 @@ function! s:FindOrAdd(type, name)
       echo "Found ".a:type."!"
     else
       if input("Didn't find ".a:type.", add one? ") == "yes"
-        call g:AddItem(a:type, a:name)
+        call s:AddItem(a:type, a:name)
       end
     end
   else
@@ -39,8 +39,8 @@ endfunction
 function! s:DeleteItem(type, name)
 endfunction
 
-command! -buffer -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
-" nnoremap <leader>ad :call g:Directive()<cr>
+command! -buffer -bar -nargs=1 -complete=customlist,s:Directive ADirective :call s:Directive(<f-args>)
+" nnoremap <leader>ad :call s:Directive()<cr>
 
 function! s:Controller(name)
   find ./app/js/controllers.js
@@ -52,14 +52,14 @@ function! s:Controller(name)
     else
       if input("Didn't find controller, add one? ") == "yes"
         echo "Adding!"
-        call g:AddItem('controller', a:name)
+        call s:AddItem('controller', a:name)
       end
     end
   else
     echo "Didn't find controller"
   end
 endfunction
-command! -buffer -bar -nargs=1 -complete=customlist,g:Controller AController :call g:Controller(<f-args>)
+command! -buffer -bar -nargs=1 -complete=customlist,s:Controller AController :call s:Controller(<f-args>)
 
 function! s:FindItem(name, type)
   let file_name = "app/js/".a:type.".js"
@@ -70,20 +70,20 @@ endfunction
 function! s:Controllers()
   find ./app/js/controllers.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,g:Controllers AControllers :call g:Controllers()
-nnoremap <leader>ac :call g:Controllers()<cr>
+command! -buffer -bar -nargs=? -complete=customlist,s:Controllers AControllers :call s:Controllers()
+nnoremap <leader>ac :call s:Controllers()<cr>
 
 function! s:App()
   find ./app/js/app.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,g:App AApp :call g:App()
-nnoremap <leader>aa :call g:App()<cr>
+command! -buffer -bar -nargs=? -complete=customlist,s:App AApp :call s:App()
+nnoremap <leader>aa :call s:App()<cr>
 
 function! s:Filters()
   find ./app/js/filters.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,g:Filters AFilters :call g:Filters()
-nnoremap <leader>af :call g:Filters()<cr>
+command! -buffer -bar -nargs=? -complete=customlist,s:Filters AFilters :call s:Filters()
+nnoremap <leader>af :call s:Filters()<cr>
 
 function! s:Filter(name)
   " find ./app/js/filters.js
@@ -95,20 +95,20 @@ function! s:Filter(name)
     else
       if input("Didn't find filter, add one? ") == "yes"
         echo "Adding!"
-        call g:AddItem('filter', a:name)
+        call s:AddItem('filter', a:name)
       end
     end
   else
     echo "Didn't find filter"
   end
 endfunction
-command! -buffer -bar -nargs=1 -complete=customlist,g:Filter AFilter :call g:Filter(<f-args>)
+command! -buffer -bar -nargs=1 -complete=customlist,s:Filter AFilter :call s:Filter(<f-args>)
 
 function! s:Services()
   find ./app/js/services.js
 endfunction
-command! -buffer -bar -nargs=? -complete=customlist,g:Services AServices :call g:Services()
-nnoremap <leader>as :call g:Services()<cr>
+command! -buffer -bar -nargs=? -complete=customlist,s:Services AServices :call s:Services()
+nnoremap <leader>as :call s:Services()<cr>
 
 function! s:Service(name)
   find ./app/js/services.js
@@ -124,7 +124,10 @@ function! s:Service(name)
     echo "Didn't find service"
   end
 endfunction
-command! -buffer -bar -nargs=1 -complete=customlist,g:Service AService :call g:Service(<f-args>)
+
+if !exists(":AService")
+  command! -buffer -bar -nargs=1 -complete=customlist,s:Service AService :call s:Service(<f-args>)
+endif
 
 function! s:AngularApp()
   if filereadable("./update-angular.sh")
