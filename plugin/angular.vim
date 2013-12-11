@@ -57,7 +57,7 @@ function! g:Controller(name)
     else
       if input("Didn't find controller, add one? ") == "yes"
         echo "Adding!"
-        call g:AddItem('controller', a:name)
+        execute "normal! G?controller(\<cr>%acontroller(\'".a:name."\',)\<esc>i"
       end
     end
   else
