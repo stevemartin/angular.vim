@@ -5,7 +5,7 @@ if exists('g:loaded_angular_vim')
 endif
 let g:loaded_angular_vim = 1
 
-function! s:Directives()
+function! g:Directives()
   if filereadable("./app/js/directives.js")
     find ./app/js/directives.js
   else
@@ -13,15 +13,15 @@ function! s:Directives()
     clast
   end
 endfunction
-command! -bar -nargs=0 -complete=customlist,s:Directives ADirectives :call s:Directives()
-nnoremap <leader>ad :call s:Directives()<cr>
+command! -bar -nargs=0 -complete=customlist,g:Directives ADirectives :call g:Directives()
+nnoremap <leader>ad :call g:Directives()<cr>
 
-function! s:Directive(name)
+function! g:Directive(name)
   find ./app/js/directives.js
-  call s:FindOrAdd('directive', a:name)
+  call g:FindOrAdd('directive', a:name)
 endfunction
 
-function! s:FindOrAdd(type, name)
+function! g:FindOrAdd(type, name)
   let curfile = bufname("%")
   if curfile == "app/js/".a:type."s.js"
     let resdict = searchpos(a:name)
@@ -29,7 +29,7 @@ function! s:FindOrAdd(type, name)
       echo "Found ".a:type."!"
     else
       if input("Didn't find ".a:type.", add one? ") == "yes"
-        call s:AddItem(a:type, a:name)
+        call g:AddItem(a:type, a:name)
       end
     end
   else
@@ -37,17 +37,17 @@ function! s:FindOrAdd(type, name)
   end
 endfunction
 
-function! s:AddItem(type, name)
+function! g:AddItem(type, name)
   execute "normal! G?".a:type."(\<cr>%a.".a:type."(\'".a:name."\',)\<esc>i"
 endfunction
 
-function! s:DeleteItem(type, name)
+function! g:DeleteItem(type, name)
 endfunction
 
-command! -bar -nargs=1 -complete=customlist,s:Directive ADirective :call s:Directive(<f-args>)
-" nnoremap <leader>ad :call s:Directive()<cr>
+command! -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
+" nnoremap <leader>ad :call g:Directive()<cr>
 
-function! s:Controller(name)
+function! g:Controller(name)
   find ./app/js/controllers.js
   let curfile = bufname("%")
   if curfile == "app/js/controllers.js"
@@ -57,40 +57,40 @@ function! s:Controller(name)
     else
       if input("Didn't find controller, add one? ") == "yes"
         echo "Adding!"
-        call s:AddItem('controller', a:name)
+        call g:AddItem('controller', a:name)
       end
     end
   else
     echo "Didn't find controller"
   end
 endfunction
-command! -bar -nargs=1 -complete=customlist,s:Controller AController :call s:Controller(<f-args>)
+command! -bar -nargs=1 -complete=customlist,g:Controller AController :call g:Controller(<f-args>)
 
-function! s:FindItem(name, type)
+function! g:FindItem(name, type)
   let file_name = "app/js/".a:type.".js"
   echo file_name
   call findfile(file_name)
 endfunction
 
-function! s:Controllers()
+function! g:Controllers()
   find ./app/js/controllers.js
 endfunction
-command! -bar -nargs=? -complete=customlist,s:Controllers AControllers :call s:Controllers()
-nnoremap <leader>ac :call s:Controllers()<cr>
+command! -bar -nargs=? -complete=customlist,g:Controllers AControllers :call g:Controllers()
+nnoremap <leader>ac :call g:Controllers()<cr>
 
-function! s:App()
+function! g:App()
   find ./app/js/app.js
 endfunction
-command! -bar -nargs=? -complete=customlist,s:App AApp :call s:App()
-nnoremap <leader>aa :call s:App()<cr>
+command! -bar -nargs=? -complete=customlist,g:App AApp :call g:App()
+nnoremap <leader>aa :call g:App()<cr>
 
-function! s:Filters()
+function! g:Filters()
   find ./app/js/filters.js
 endfunction
-command! -bar -nargs=? -complete=customlist,s:Filters AFilters :call s:Filters()
-nnoremap <leader>af :call s:Filters()<cr>
+command! -bar -nargs=? -complete=customlist,g:Filters AFilters :call g:Filters()
+nnoremap <leader>af :call g:Filters()<cr>
 
-function! s:Filter(name)
+function! g:Filter(name)
   " find ./app/js/filters.js
   let curfile = bufname("%")
   if curfile == "app/js/filters.js"
@@ -100,22 +100,22 @@ function! s:Filter(name)
     else
       if input("Didn't find filter, add one? ") == "yes"
         echo "Adding!"
-        call s:AddItem('filter', a:name)
+        call g:AddItem('filter', a:name)
       end
     end
   else
     echo "Didn't find filter"
   end
 endfunction
-command! -bar -nargs=1 -complete=customlist,s:Filter AFilter :call s:Filter(<f-args>)
+command! -bar -nargs=1 -complete=customlist,g:Filter AFilter :call g:Filter(<f-args>)
 
-function! s:Services()
+function! g:Services()
   find ./app/js/services.js
 endfunction
-command! -bar -nargs=? -complete=customlist,s:Services AServices :call s:Services()
-nnoremap <leader>as :call s:Services()<cr>
+command! -bar -nargs=? -complete=customlist,g:Services AServices :call g:Services()
+nnoremap <leader>as :call g:Services()<cr>
 
-function! s:Service(name)
+function! g:Service(name)
   find ./app/js/services.js
   let curfile = bufname("%")
   if curfile == "app/js/services.js"
@@ -131,10 +131,10 @@ function! s:Service(name)
 endfunction
 
 if !exists(":AService")
-  command! -bar -nargs=1 -complete=customlist,s:Service AService :call s:Service(<f-args>)
+  command! -bar -nargs=1 -complete=customlist,g:Service AService :call g:Service(<f-args>)
 endif
 
-function! s:AngularApp()
+function! g:AngularApp()
   if filereadable("./update-angular.sh")
     return 1
   else
@@ -144,10 +144,10 @@ endfunction
 
 " augroup angularPluginDetect
 "   autocmd!
-"   autocmd BufNewFile,BufRead * call s:Detect(expand("<afile>:p"))
-"   autocmd VimEnter * if expand("<amatch>") == "" && !exists("b:rails_root") | call s:Detect(getcwd()) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
-"   autocmd FileType netrw if !exists("b:rails_root") | call s:Detect(expand("%:p")) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
+"   autocmd BufNewFile,BufRead * call g:Detect(expand("<afile>:p"))
+"   autocmd VimEnter * if expand("<amatch>") == "" && !exists("b:rails_root") | call g:Detect(getcwd()) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
+"   autocmd FileType netrw if !exists("b:rails_root") | call g:Detect(expand("%:p")) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
 "   autocmd BufEnter * if exists("b:rails_root")|silent doau User BufEnterRails|endif
 "   autocmd BufLeave * if exists("b:rails_root")|silent doau User BufLeaveRails|endif
-"   autocmd Syntax railslog if s:autoload()|call rails#log_syntax()|endif
+"   autocmd Syntax railslog if g:autoload()|call rails#log_syntax()|endif
 " augroup END
