@@ -1,5 +1,8 @@
 function! g:Directives()
-  find ./app/js/directives.js
+  if filereadable("./app/js/directives.js")
+    find ./app/js/directives.js
+  else
+  end
 endfunction
 command! -buffer -bar -nargs=? -complete=customlist,g:Directives ADirectives :call g:Directives()
 nnoremap <leader>ad :call g:Directives()<cr>
@@ -12,20 +15,16 @@ function! g:Directive(name)
     if(resdict != [0,0])
       echo "Found directive!"
     else
-
-      echo "Didn't find directive"
-      if input("Add one? ") == "yes"
+      if input("Didn't find directive, add one? ") == "yes"
         echo "Adding!"
-        execute "normal /directive(\<cr>%a.directive(\'".a:name."\',)\<esc>i"
-        " normal! /directive(
-        " normal! <cr>%a.directive()
+        execute "normal G?directive(\<cr>%a.directive(\'".a:name."\',)\<esc>i"
       end
-
     end
   else
     echo "Didn't find directive"
   end
 endfunction
+
 command! -buffer -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
 " nnoremap <leader>ad :call g:Directive()<cr>
 
@@ -37,7 +36,10 @@ function! g:Controller(name)
     if(resdict != [0,0])
       echo "Found controller!"
     else
-      echo "Didn't find controller"
+      if input("Didn't find controller, add one? ") == "yes"
+        echo "Adding!"
+        execute "normal G?controller(\<cr>%a.controller(\'".a:name."\',)\<esc>i"
+      end
     end
   else
     echo "Didn't find controller"
@@ -77,7 +79,10 @@ function! g:Filter(name)
     if(resdict != [0,0])
       echo "Found filter!"
     else
-      echo "Didn't find filter"
+      if input("Didn't find filter, add one? ") == "yes"
+        echo "Adding!"
+        execute "normal G?filter(\<cr>%a.filter(\'".a:name."\',)\<esc>i"
+      end
     end
   else
     echo "Didn't find filter"
