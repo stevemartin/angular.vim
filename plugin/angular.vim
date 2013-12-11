@@ -1,5 +1,10 @@
 " Vim global plugin for editing angular.js apps in the angular seed form.
 
+if exists('g:loaded_angular_vim')
+  finish
+endif
+let g:loaded_angular_vim = 1
+
 function! s:Directives()
   if filereadable("./app/js/directives.js")
     find ./app/js/directives.js
