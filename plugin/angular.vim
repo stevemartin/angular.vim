@@ -21,6 +21,7 @@ function! g:Directive(name)
   find ./app/js/directives.js
   call g:FindOrAdd('directive', a:name)
 endfunction
+command! -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
 
 function! g:FindOrAdd(type, name)
   let curfile = bufname("%")
@@ -39,40 +40,38 @@ function! g:FindOrAdd(type, name)
 endfunction
 
 function! g:AddItem(type, name)
-  execute "normal! G?".a:type."(\<cr>%a.".a:type."(\'".a:name."\',)\<esc>i"
+  execute "normal! G?".a:type."(\<cr>%a.".a:type."(\'".a:name."\', [] function(){})\<esc>i"
 endfunction
 
 function! g:DeleteItem(type, name)
 endfunction
 
-command! -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Directive(<f-args>)
 " nnoremap <leader>ad :call g:Directive()<cr>
 
+" function! g:Controller(name)
+"   set nofoldenable
+"   find ./app/js/controllers.js
+"   let curfile = bufname("%")
+"   if curfile == "./app/js/controllers.js"
+"     let resdict = searchpos(a:name)
+"     if(resdict != [0,0])
+"       echo "Found controller!"
+"     else
+"       if input("Didn't find controller, add one? ") == "yes"
+"         echo "Adding!"
+"         execute "silent normal! G?controller(?e\<cr>%a.controller(\'".a:name."\',)\<esc>i"
+"       end
+"     end
+"   else
+"     echo "Didn't find controller file, current file: ".curfile
+"   end
+" endfunction
 function! g:Controller(name)
   set nofoldenable
   find ./app/js/controllers.js
-  let curfile = bufname("%")
-  if curfile == "./app/js/controllers.js"
-    let resdict = searchpos(a:name)
-    if(resdict != [0,0])
-      echo "Found controller!"
-    else
-      if input("Didn't find controller, add one? ") == "yes"
-        echo "Adding!"
-        execute "silent normal! G?controller(?e\<cr>%a.controller(\'".a:name."\',)\<esc>i"
-      end
-    end
-  else
-    echo "Didn't find controller file, current file: ".curfile
-  end
+  call g:FindOrAdd('controller', a:name)
 endfunction
 command! -bar -nargs=1 -complete=customlist,g:Controller AController :call g:Controller(<f-args>)
-
-function! g:FindItem(name, type)
-  let file_name = "app/js/".a:type.".js"
-  echo file_name
-  call findfile(file_name)
-endfunction
 
 function! g:Controllers()
   find ./app/js/controllers.js
@@ -93,21 +92,9 @@ command! -bar -nargs=? -complete=customlist,g:Filters AFilters :call g:Filters()
 nnoremap <leader>af :call g:Filters()<cr>
 
 function! g:Filter(name)
-  " find ./app/js/filters.js
-  let curfile = bufname("%")
-  if curfile == "app/js/filters.js"
-    let resdict = searchpos(a:name)
-    if(resdict != [0,0])
-      echo "Found filter!"
-    else
-      if input("Didn't find filter, add one? ") == "yes"
-        echo "Adding!"
-        call g:AddItem('filter', a:name)
-      end
-    end
-  else
-    echo "Didn't find filter"
-  end
+  set nofoldenable
+  find ./app/js/filters.js
+  call g:FindOrAdd('filter', a:name)
 endfunction
 command! -bar -nargs=1 -complete=customlist,g:Filter AFilter :call g:Filter(<f-args>)
 
@@ -153,3 +140,10 @@ endfunction
 "   autocmd BufLeave * if exists("b:rails_root")|silent doau User BufLeaveRails|endif
 "   autocmd Syntax railslog if g:autoload()|call rails#log_syntax()|endif
 " augroup END
+
+" function! g:FindItem(name, type)
+"   let file_name = "app/js/".a:type.".js"
+"   echo file_name
+"   call findfile(file_name)
+" endfunction
+
