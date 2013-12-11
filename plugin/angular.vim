@@ -11,24 +11,24 @@ nnoremap <leader>ad :call g:Directives()<cr>
 
 function! g:Directive(name)
   find ./app/js/directives.js
+  call FindOrAdd('directive', a:name)
+endfunction
+
+function! FindOrAdd(type, name)
   let curfile = bufname("%")
-  if curfile == "app/js/directives.js"
+  if curfile == "app/js/".a:type."s.js"
     let resdict = searchpos(a:name)
     if(resdict != [0,0])
-      echo "Found directive!"
+      echo "Found ".a:type."!"
     else
-      if input("Didn't find directive, add one? ") == "yes"
-        echo "Adding!"
-        g:AddDirective(a:name)
+      if input("Didn't find ".a:type.", add one? ") == "yes"
+        call g:AddItem(a:type, a:name)
       end
     end
   else
-    echo "Didn't find directive"
+    echo "Didn't find ".a:type
   end
-endfunction
 
-function! g:AddDirective(name)
-  g:AddItem('directive', a:name)
 endfunction
 
 function! g:AddItem(type, name)
@@ -51,7 +51,7 @@ function! g:Controller(name)
     else
       if input("Didn't find controller, add one? ") == "yes"
         echo "Adding!"
-        execute "normal! G?controller(\<cr>%a.controller(\'".a:name."\',)\<esc>i"
+        call g:AddItem('controller', a:name)
       end
     end
   else
@@ -94,7 +94,7 @@ function! g:Filter(name)
     else
       if input("Didn't find filter, add one? ") == "yes"
         echo "Adding!"
-        execute "normal! G?filter(\<cr>%a.filter(\'".a:name."\',)\<esc>i"
+        call g:AddItem('filter', a:name)
       end
     end
   else
@@ -132,3 +132,4 @@ function! g:AngularApp()
     return 0
   endif
 endfunction
+
