@@ -48,6 +48,7 @@ command! -bar -nargs=1 -complete=customlist,g:Directive ADirective :call g:Direc
 " nnoremap <leader>ad :call g:Directive()<cr>
 
 function! g:Controller(name)
+  set nofoldenable
   find ./app/js/controllers.js
   let curfile = bufname("%")
   if curfile == "./app/js/controllers.js"
@@ -57,12 +58,13 @@ function! g:Controller(name)
     else
       if input("Didn't find controller, add one? ") == "yes"
         echo "Adding!"
-        execute "normal! G?controller(?e\<cr>%a.controller(\'".a:name."\',)\<esc>i"
+        execute "silent normal! G?controller(?e\<cr>%a.controller(\'".a:name."\',)\<esc>i"
       end
     end
   else
     echo "Didn't find controller file, current file: ".curfile
   end
+  set foldenable
 endfunction
 command! -bar -nargs=1 -complete=customlist,g:Controller AController :call g:Controller(<f-args>)
 
