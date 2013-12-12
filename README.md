@@ -1,5 +1,7 @@
 # angular.vim
 
+[![Build Status](https://travis-ci.org/stevemartin/angular.vim.png?branch=master)](https://travis-ci.org/stevemartin/angular.vim)
+
 ## Plugin aims
 
 This plugin aims to act as a wrapper around the [angular seed](https://github.com/angular/angular-seed) project, to give you some convenience functions for interacting with it.
