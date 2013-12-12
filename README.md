@@ -7,7 +7,7 @@
 This plugin aims to act as a wrapper around the [angular seed](https://github.com/angular/angular-seed) project, to give you some convenience functions for interacting with it.
 
 ### Usage
-Navigate between the different angular js files:
+Navigate between the different angular js files and add controllers, directives or services if they dont exist:
 
 ### Commands
 

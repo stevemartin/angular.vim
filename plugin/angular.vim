@@ -46,26 +46,6 @@ endfunction
 function! g:DeleteItem(type, name)
 endfunction
 
-" nnoremap <leader>ad :call g:Directive()<cr>
-
-" function! g:Controller(name)
-"   set nofoldenable
-"   find ./app/js/controllers.js
-"   let curfile = bufname("%")
-"   if curfile == "./app/js/controllers.js"
-"     let resdict = searchpos(a:name)
-"     if(resdict != [0,0])
-"       echo "Found controller!"
-"     else
-"       if input("Didn't find controller, add one? ") == "yes"
-"         echo "Adding!"
-"         execute "silent normal! G?controller(?e\<cr>%a.controller(\'".a:name."\',)\<esc>i"
-"       end
-"     end
-"   else
-"     echo "Didn't find controller file, current file: ".curfile
-"   end
-" endfunction
 function! g:Controller(name)
   set nofoldenable
   find ./app/js/controllers.js
@@ -107,7 +87,7 @@ nnoremap <leader>as :call g:Services()<cr>
 function! g:Service(name)
   find ./app/js/services.js
   let curfile = bufname("%")
-  if curfile == "app/js/services.js"
+  if curfile == "./app/js/services.js"
     let resdict = searchpos(a:name)
     if(resdict != [0,0])
       echo "Found service!"
@@ -130,20 +110,4 @@ function! g:AngularApp()
     return 0
   endif
 endfunction
-
-" augroup angularPluginDetect
-"   autocmd!
-"   autocmd BufNewFile,BufRead * call g:Detect(expand("<afile>:p"))
-"   autocmd VimEnter * if expand("<amatch>") == "" && !exists("b:rails_root") | call g:Detect(getcwd()) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
-"   autocmd FileType netrw if !exists("b:rails_root") | call g:Detect(expand("%:p")) | endif | if exists("b:rails_root") | silent doau User BufEnterRails | endif
-"   autocmd BufEnter * if exists("b:rails_root")|silent doau User BufEnterRails|endif
-"   autocmd BufLeave * if exists("b:rails_root")|silent doau User BufLeaveRails|endif
-"   autocmd Syntax railslog if g:autoload()|call rails#log_syntax()|endif
-" augroup END
-
-" function! g:FindItem(name, type)
-"   let file_name = "app/js/".a:type.".js"
-"   echo file_name
-"   call findfile(file_name)
-" endfunction
 
