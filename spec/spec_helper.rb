@@ -1,3 +1,4 @@
+require 'pry'
 require 'vimrunner'
 require 'vimrunner/rspec'
 

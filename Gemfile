@@ -5,3 +5,4 @@ source "https://rubygems.org"
 gem 'vimrunner'
 gem 'rspec'
 gem 'vim-flavor', '~> 1.1'
+gem 'pry'

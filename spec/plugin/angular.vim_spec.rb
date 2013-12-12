@@ -3,6 +3,9 @@ require_relative '../spec_helper'
 
 describe 'check if working directory is an angular app' do
   before do
+    test_path = `pwd`
+    path = File.expand_path('../../../',__FILE__)
+    system "cp -r #{path}/fixtures/app app"
     vim.add_plugin(File.expand_path('../../../',__FILE__), 'plugin/angular.vim')
   end
   it 'edits a file' do
@@ -13,8 +16,15 @@ describe 'check if working directory is an angular app' do
     expect(File.read('test.txt')).to eql(sample.strip + "\n")
   end
 
-  it 'runs the directive' do
+  it 'add a directive' do
     # vim.feedkey
-    vim.command('ADirectives')
+    vim.normal(':ADirective test_dir<cr>yes<cr><cr>:w<cr>')
+    sleep(0.1)
+    IO.read('app/js/directives.js').should match("test_dir")
   end
+
+  after do
+    system "rm -rf app"
+  end
+
 end
